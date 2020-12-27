@@ -1,6 +1,7 @@
 #define TEST_NO_MAIN
 
 #include "acutest.h"
+#include "a/array.h"
 #include "ds/vector.h"
 
 #include <stddef.h>
@@ -49,10 +50,14 @@ void test_newIArrayFromIVector(void) {
   for (size_t i = 0; i < n; ++i)
     appendToIVector(vec, i);
 
-  TEST_CHECK(vec->size == 10);
+  const size_t size = vec->size;
+
+  TEST_CHECK(size == 10);
   TEST_CHECK(vec->_cap == 16);
 
   int64_t* arr = newIArrayFromIVector(vec);
+
+  i64ArrayCmp(arr, size, vec->data, size);
 
   free(arr);
   freeIVector(vec);
