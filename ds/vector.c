@@ -29,15 +29,20 @@ void appendToIVector(IVector* vec, const int64_t data) {
   const size_t oldSize = vec->size;
 
   if (oldCap == 0) {
+    // Vector is completely new - allocate memory and insert data.
     vec->size = 1;
     vec->_cap = 2;
     vec->data = newI64Array(vec->_cap);
     vec->data[0] = data;
   } else {
+    // Vector contains existing data since _cap is not 0.
     if (oldCap == oldSize) {
+      // Vector is at full capacity.
+      // Reallocate more memory.
       vec->_cap *= 2;
       vec->data = realloc(vec->data, sizeof(int64_t) * vec->_cap);
     }
+    // At this point, _cap - size > 0, thus we can add more element to vec->data.
     vec->data[vec->size++] = data;
   }
 
