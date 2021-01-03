@@ -16,7 +16,7 @@ build/%.o: ../ds/%.c
 	$(CC) $(CFLAGS) $(INCS) -c $? -o $@
 
 test: tests
-	@./tests
+	@./tests -v
 
 clean:
 	rm -rf tests build/*.o build/*.dSYM
