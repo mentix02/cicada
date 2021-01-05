@@ -1,6 +1,7 @@
 #define TEST_NO_MAIN
 
 #include "acutest.h"
+#include "a/array.h"
 #include "ds/list.h"
 
 void test_newIList(void) {
@@ -29,15 +30,21 @@ void test_clearIList(void) {
 }
 
 void test_newIArrayFromIList(void) {
+  int64_t orig_arr[5] = {2, 3, 1, 6, 4};
   IList* list = newIList();
 
   TEST_ASSERT(list != NULL);
 
-  int64_t* arr = newIArrayFromIList(list);
+  for (size_t i = 0; i < 5; ++i)
+    appendToIList(list, orig_arr[i]);
 
-  TEST_ASSERT(arr != NULL);
+  int64_t* list_arr = newIArrayFromIList(list);
 
-  free(arr);
+  TEST_ASSERT(list_arr != NULL);
+
+  TEST_CHECK(i64ArrayCmp(orig_arr, 5, list_arr, 5));
+
+  free(list_arr);
   freeIList(list);
 }
 
